@@ -59,6 +59,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics\Sprites\AnimatedSprite.cs" />
     <Compile Include="GUI\Containers\ScrollableList.cs" />
     <Compile Include="GUI\Controls\Button.cs" />
     <Compile Include="GUI\Controls\Box.cs" />

@@ -15,23 +15,47 @@ namespace Solar.Graphics.Sprites
 
         private int currentFrame;
         private int totalFrames;
+        private int elapsedTime, frameTime;
+        private int previousMin, previousMax;
 
-        public AnimatedSprite(Texture2D texture, int rows, int columns)
+        public AnimatedSprite(Texture2D texture, int rows, int columns, int frametime)
         {
             Texture = texture;
             Rows = rows;
             Columns = columns;
             currentFrame = 0;
             totalFrames = Rows * Columns;
+            frameTime = frametime;
         }
 
-        public void Update()
+        public AnimatedSprite ShallowCopy()
         {
-            currentFrame++;
-            if (currentFrame == totalFrames)
+            AnimatedSprite other = (AnimatedSprite)this.MemberwiseClone();
+            
+            return other;
+        }
+
+        public void Update(GameTime gameTime, int minFrame, int maxFrame)
+        {
+            // Update the elapsed time
+            elapsedTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (maxFrame != previousMax || minFrame != previousMin)
             {
-                currentFrame = 0;
+                currentFrame = minFrame;
             }
+
+            if (elapsedTime > frameTime)
+            {
+                currentFrame++;
+                if (currentFrame == totalFrames || currentFrame > maxFrame)
+                {
+                    currentFrame = minFrame;
+                }
+                elapsedTime = 0;
+            }
+            previousMax = maxFrame;
+            previousMin = minFrame;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 location)
