@@ -15,7 +15,7 @@ namespace Solar.Graphics.Sprites
 
         private int currentFrame;
         private int totalFrames;
-        private int elapsedTime, frameTime;
+        private int elapsedTime, previousElapsedTime, frameTime;
         private int previousMin, previousMax;
 
         public AnimatedSprite(Texture2D texture, int rows, int columns, int frametime)
@@ -48,7 +48,7 @@ namespace Solar.Graphics.Sprites
             if (elapsedTime > frameTime)
             {
                 currentFrame++;
-                if (currentFrame == totalFrames || currentFrame > maxFrame)
+                if (currentFrame == totalFrames || currentFrame >= maxFrame)
                 {
                     currentFrame = minFrame;
                 }
@@ -58,7 +58,7 @@ namespace Solar.Graphics.Sprites
             previousMin = minFrame;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, bool mirrored)
         {
             int width = Texture.Width / Columns;
             int height = Texture.Height / Rows;
@@ -68,7 +68,14 @@ namespace Solar.Graphics.Sprites
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+            if (mirrored == true)
+            {
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.FlipHorizontally, 0f);
+            }
+            else
+            {
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
+            }
         }
     }
 }
