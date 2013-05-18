@@ -77,8 +77,8 @@ namespace Solar.GUI.Controls
         {
             if (Textured == true)
             {
-                spritebatch.Draw(CurrentTexture, Position, Color.White);
-                spritebatch.DrawString(Font, Text, TextPosition, FontColor);
+                spritebatch.Draw(CurrentTexture, Position, null, Color.White, 0f, new Vector2(MainTexture.Width / 2, MainTexture.Height / 2), 1.0f, SpriteEffects.None, 0);
+                spritebatch.DrawString(Font, Text, TextPosition, FontColor, 0f, new Vector2(MainTexture.Width / 2, MainTexture.Height / 2), 1.0f, SpriteEffects.None, 0);
             }
             else
             {
