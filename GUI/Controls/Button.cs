@@ -7,7 +7,7 @@ namespace Solar.GUI.Controls
     public class Button
     {
         private Vector2 Position, Scale, TextPosition;
-        private Texture2D MainTexture, BorderTexture, HoverTexture, SelectedTexture;
+        private Texture2D MainTexture, HoverTexture, SelectedTexture;
         private Box DefaultBox, HoverBox, SelectedBox;
         private int Width, Height, BWidth;
         private Color MColor, MColorSelected, BColor, FontColor = Color.White;
@@ -50,7 +50,7 @@ namespace Solar.GUI.Controls
         {
             
             Font = content.Load<SpriteFont>(FontPath);
-            if (MainTexture == null)
+            if (TexturePath == null)
             {
                 DefaultBox = new Box(Position, Width, Height, BWidth, MColor, BColor, graphicsdevice);
                 SelectedBox = new Box(Position, Width, Height, BWidth, MColorSelected, BColor, graphicsdevice);
@@ -58,15 +58,19 @@ namespace Solar.GUI.Controls
             }
             else
             {
-                TextPosition = new Vector2((int)(Position.X + (CurrentTexture.Width / 2) - (Font.MeasureString(Text).X / 2)), (int)(Position.Y + (CurrentTexture.Height / 2) - (Font.MeasureString(Text).Y / 2)));
                 MainTexture = content.Load<Texture2D>(TexturePath);
                 CurrentTexture = MainTexture;
+                TextPosition = new Vector2((int)(Position.X + (CurrentTexture.Width / 2) - (Font.MeasureString(Text).X / 2)), (int)(Position.Y + (CurrentTexture.Height / 2) - (Font.MeasureString(Text).Y / 2)));
             }
         }
 
         public void UnloadContent()
         {
-            DefaultBox.UnloadContent();
+            if (TexturePath == null)
+            {
+                DefaultBox.UnloadContent();
+                SelectedBox.UnloadContent();
+            }
         }
 
         public void Draw(SpriteBatch spritebatch)
