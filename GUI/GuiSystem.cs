@@ -59,6 +59,7 @@ namespace Solar.GUI
             {
                 item.LoadContent(content, graphicsDevice);
             }
+            ButtonIndexUpdate(0);
         }
 
         // Anything which uses textures generated at runtime or in the future.
