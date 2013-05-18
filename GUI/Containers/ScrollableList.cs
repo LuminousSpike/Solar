@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using Solar;
+using Microsoft.Xna.Framework.Input;
 using Solar.GUI.Controls;
 
 namespace Solar.GUI.Containers
