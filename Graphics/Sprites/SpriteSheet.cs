@@ -13,6 +13,8 @@ namespace Solar.Graphics.Sprites
         public int Rows { get; set; }
         public int Columns { get; set; }
 
+        private Vector2 origin;
+
         public SpriteSheet(Texture2D texture, int rows, int columns)
         {
             Texture = texture;
@@ -23,6 +25,7 @@ namespace Solar.Graphics.Sprites
         public SpriteSheet(Texture2D texture, Vector2 spriteRect)
         {
             Texture = texture;
+            origin = spriteRect;
             Rows = texture.Bounds.Width / (int)spriteRect.X;
             Columns = texture.Bounds.Height / (int)spriteRect.Y;
         }
@@ -35,7 +38,7 @@ namespace Solar.Graphics.Sprites
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location, bool mirrored, int currentFrame)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, SpriteEffects spriteEffect, int currentFrame)
         {
             int width = Texture.Width / Columns;
             int height = Texture.Height / Rows;
@@ -45,14 +48,8 @@ namespace Solar.Graphics.Sprites
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            if (mirrored == true)
-            {
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.FlipHorizontally, 0f);
-            }
-            else
-            {
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-            }
+            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White, 0f, origin, spriteEffect, 0f);
         }
+
     }
 }

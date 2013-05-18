@@ -59,6 +59,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics\Cameras\AdvancedCamera2D.cs" />
+    <Compile Include="Graphics\Cameras\BasicCamera2D.cs" />
     <Compile Include="Graphics\Sprites\AnimatedSprite.cs" />
     <Compile Include="Graphics\Sprites\SpriteSheet.cs" />
     <Compile Include="GUI\Containers\ScrollableList.cs" />
