@@ -13,6 +13,9 @@ namespace Solar.Graphics.Cameras
         int previousMouseScrollWheelValue = 0;
         float zoomAmount = 1f;
 
+        /// <summary>
+        /// Constuctor which initializes variables.
+        /// </summary>
         public BasicCamera2D()
         {
             _zoom = 1.0f;
@@ -21,18 +24,28 @@ namespace Solar.Graphics.Cameras
             _posModified = _pos;
         }
 
+        /// <summary>
+        /// Gets and sets the zoom variable.
+        /// </summary>
         public float Zoom
         {
             get { return _zoom; }
-            set { _zoom = value; if (_zoom < 0.1f) _zoom = 0.1f; if (_zoom > 1.0f) _zoom = 1.0f; }
+            set { _zoom = value; if (_zoom < 0.16f) _zoom = 0.16f; if (_zoom > 1.0f) _zoom = 1.0f; }
         }
 
+        /// <summary>
+        /// Gets and sets the rotation variable.
+        /// </summary>
         public float Rotation
         {
             get { return _rotation; }
             set { _rotation = value; }
         }
 
+        /// <summary>
+        /// Increments the modified position by an amount.
+        /// </summary>
+        /// <param name="amount">Amount to increment the modified position.</param>
         public void Move(Vector2 amount)
         {
             _posModified += amount;
@@ -67,6 +80,13 @@ namespace Solar.Graphics.Cameras
             return _transform;
         }
 
+        /// <summary>
+        /// Smoothes the transition from one float to the other.
+        /// </summary>
+        /// <param name="pos1">Float to transition from.</param>
+        /// <param name="pos2">Float to transition to.</param>
+        /// <param name="speed">Speed of which the transition occurs.</param>
+        /// <returns></returns>
         private float SmoothTransition(float pos1, float pos2, float speed)
         {
 
@@ -75,6 +95,13 @@ namespace Solar.Graphics.Cameras
             return smoothedPosUpdate;
         }
 
+        /// <summary>
+        /// Smoothes the transition from one Vector2 to the other.
+        /// </summary>
+        /// <param name="pos1">Vector2 to transition from.</param>
+        /// <param name="pos2">Vector2 to transition to.</param>
+        /// <param name="speed">Speed of which the transition occurs.</param>
+        /// <returns></returns>
         private Vector2 SmoothTransition(Vector2 pos1, Vector2 pos2, float speed)
         {
 
