@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Solar.GUI.Containers;
 using Solar.GUI.Controls;
+using Microsoft.Xna.Framework;
 
 namespace Solar.GUI
 {
@@ -118,9 +119,11 @@ namespace Solar.GUI
         }
 
         // Any update code which is generic for all Objects of a type.
-        public virtual void Update()
+        public virtual void Update(MouseState mouseState)
         {
             // Button Management
+            UpdateMouse(mouseState);
+
             CurrentKeyboardState = Keyboard.GetState();
             if ((CurrentKeyboardState.IsKeyUp(Keys.Down) && PreviousKeyboardState.IsKeyDown(Keys.Down)) || (CurrentKeyboardState.IsKeyUp(Keys.S) && PreviousKeyboardState.IsKeyDown(Keys.S)))
             {
@@ -172,6 +175,34 @@ namespace Solar.GUI
             foreach (TextBox item in GuiTextBoxList)
             {
                 item.Draw(spriteBatch);
+            }
+        }
+
+        private void UpdateMouse(MouseState mouseState)
+        {
+            foreach (Button item in GuiButtonList)
+            {
+                if (GetMouseOverRect(item.Rectangle, item.Position, mouseState))
+                {
+                    item.IsSelected = true;
+                }
+                else
+                {
+                    item.IsSelected = false;
+                }
+            }
+        }
+
+        private bool GetMouseOverRect(Rectangle rect, Vector2 position, MouseState mouseState)
+        {
+            if (mouseState.X > position.X - (rect.Width / 2) && mouseState.X < position.X + (rect.Width / 2) &&
+                mouseState.Y > position.Y - (rect.Height / 2) && mouseState.Y < position.Y + (rect.Height / 2))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

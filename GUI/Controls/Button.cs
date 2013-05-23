@@ -6,7 +6,7 @@ namespace Solar.GUI.Controls
 {
     public class Button
     {
-        private Vector2 Position, Scale, TextPosition;
+        private Vector2 position, Scale, TextPosition;
         private Texture2D MainTexture, HoverTexture, SelectedTexture;
         private Box DefaultBox, HoverBox, SelectedBox;
         private int Width, Height, BWidth;
@@ -14,6 +14,7 @@ namespace Solar.GUI.Controls
         private bool Textured = false, Selected = false;
         private string Text, TextureMainPath, TextureSelectedPath, FontPath;
         private SpriteFont Font;
+        private Rectangle rectangle;
 
         public Texture2D CurrentTexture;
         public bool IsSelected
@@ -22,19 +23,24 @@ namespace Solar.GUI.Controls
             set { Selected = value; }
         }
 
+        public Vector2 Position { get { return position; } }
+
+        public Rectangle Rectangle { get { return rectangle; } }
+
         public Button(Vector2 position, string text, string textureMainPath, string textureSelectedPath, string fontPath)
         {
-            Position = position;
+            this.position = position;
             Textured = true;
             Text = text;
             TextureMainPath = textureMainPath;
             TextureSelectedPath = textureSelectedPath;
             FontPath = fontPath;
+            
         }
 
         public Button(Vector2 position, int width, int height, int bWidth, Color mColor, Color mColorSelected, Color bColor, Color fontColor, string text, string fontPath)
         {
-            Position = position;
+            this.position = position;
             Width = width;
             Height = height;
             BWidth = bWidth;
@@ -53,17 +59,19 @@ namespace Solar.GUI.Controls
             Font = content.Load<SpriteFont>(FontPath);
             if (TextureMainPath == null)
             {
-                DefaultBox = new Box(Position, Width, Height, BWidth, MColor, BColor, graphicsdevice);
-                SelectedBox = new Box(Position, Width, Height, BWidth, MColorSelected, BColor, graphicsdevice);
-                TextPosition = new Vector2((int)(Position.X + (Width / 2) - (Font.MeasureString(Text).X / 2)), (int)(Position.Y + (Height / 2) - (Font.MeasureString(Text).Y / 2)));
+                DefaultBox = new Box(position, Width, Height, BWidth, MColor, BColor, graphicsdevice);
+                SelectedBox = new Box(position, Width, Height, BWidth, MColorSelected, BColor, graphicsdevice);
+                TextPosition = new Vector2((int)(position.X + (Width / 2) - (Font.MeasureString(Text).X / 2)), (int)(position.Y + (Height / 2) - (Font.MeasureString(Text).Y / 2)));
             }
             else
             {
                 MainTexture = content.Load<Texture2D>(TextureMainPath);
                 SelectedTexture = content.Load<Texture2D>(TextureSelectedPath);
                 CurrentTexture = MainTexture;
-                TextPosition = new Vector2((int)(Position.X + (CurrentTexture.Width / 2) - (Font.MeasureString(Text).X / 2)), (int)(Position.Y + (CurrentTexture.Height / 2) - (Font.MeasureString(Text).Y / 2)));
+                TextPosition = new Vector2((int)(position.X + (CurrentTexture.Width / 2) - (Font.MeasureString(Text).X / 2)), (int)(position.Y + (CurrentTexture.Height / 2) - (Font.MeasureString(Text).Y / 2)));
             }
+
+            rectangle = new Rectangle((int)position.X, (int)position.Y, MainTexture.Width, MainTexture.Height);
         }
 
         public void UnloadContent()
@@ -81,11 +89,11 @@ namespace Solar.GUI.Controls
             {
                 if (Selected)
                 {
-                    spritebatch.Draw(SelectedTexture, Position, null, Color.White, 0f, new Vector2(MainTexture.Width / 2, MainTexture.Height / 2), 1.0f, SpriteEffects.None, 0);
+                    spritebatch.Draw(SelectedTexture, position, null, Color.White, 0f, new Vector2(MainTexture.Width / 2, MainTexture.Height / 2), 1.0f, SpriteEffects.None, 0);
                 }
                 else
                 {
-                    spritebatch.Draw(CurrentTexture, Position, null, Color.White, 0f, new Vector2(MainTexture.Width / 2, MainTexture.Height / 2), 1.0f, SpriteEffects.None, 0);
+                    spritebatch.Draw(CurrentTexture, position, null, Color.White, 0f, new Vector2(MainTexture.Width / 2, MainTexture.Height / 2), 1.0f, SpriteEffects.None, 0);
                 }
                 spritebatch.DrawString(Font, Text, TextPosition, FontColor, 0f, new Vector2(MainTexture.Width / 2, MainTexture.Height / 2), 1.0f, SpriteEffects.None, 0);
             }
