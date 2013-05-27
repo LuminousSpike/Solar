@@ -62,6 +62,9 @@
   <ItemGroup>
     <Compile Include="Graphics\Cameras\AdvancedCamera2D.cs" />
     <Compile Include="Graphics\Cameras\BasicCamera2D.cs" />
+    <Compile Include="Graphics\Lighting\Top Down\LightArea.cs" />
+    <Compile Include="Graphics\Lighting\Top Down\QuadRenderComponent.cs" />
+    <Compile Include="Graphics\Lighting\Top Down\ShadowmapResolver.cs" />
     <Compile Include="Graphics\Sprites\AnimatedSprite.cs" />
     <Compile Include="Graphics\Sprites\SpriteSheet.cs" />
     <Compile Include="GUI\Containers\ItemList.cs" />
