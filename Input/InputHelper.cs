@@ -24,8 +24,8 @@ namespace Solar.Input
         /// </summary>
         static public void UpdatePreviousInputStates()
         {
-            previousKeyboardState = Keyboard.GetState();
-            previousGamePadState = GamePad.GetState(Microsoft.Xna.Framework.PlayerIndex.One);
+            previousKeyboardState = currentKeyboardState;
+            previousGamePadState = currentGamePadState;
         }
 
         /// <summary>
@@ -72,7 +72,8 @@ namespace Solar.Input
         /// <returns></returns>
         static public bool InputPressed(Keys keyboardKey, Buttons gamePadButton)
         {
-            if ((currentKeyboardState.IsKeyDown(keyboardKey) || currentGamePadState.IsButtonDown(gamePadButton)) && (currentKeyboardState.IsKeyUp(keyboardKey) || currentGamePadState.IsButtonUp(gamePadButton)))
+            //if ((previousKeyboardState.IsKeyDown(keyboardKey) || currentGamePadState.IsButtonDown(gamePadButton)) && (currentKeyboardState.IsKeyUp(keyboardKey) || currentGamePadState.IsButtonUp(gamePadButton)))
+            if (previousKeyboardState.IsKeyDown(keyboardKey) && currentKeyboardState.IsKeyUp(keyboardKey))
             {
                 return true;
             }
