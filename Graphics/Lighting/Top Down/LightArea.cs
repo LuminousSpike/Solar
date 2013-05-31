@@ -10,6 +10,7 @@ namespace Solar.Graphics.Lighting.Top_Down
         public RenderTarget2D RenderTarget { get; private set; }
         public Vector2 LightPosition { get; set; }
         public Vector2 LightAreaSize { get; set; }
+        public Color color;
 
         public LightArea(GraphicsDevice graphicsDevice, ShadowmapSize size)
         {
