@@ -34,7 +34,7 @@ namespace Solar.Graphics.Sprites
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location, SpriteEffects spriteEffect, int currentFrame)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, SpriteEffects spriteEffect, Color color, int currentFrame)
         {
             int width = Texture.Width / Columns;
             int height = Texture.Height / Rows;
@@ -44,7 +44,7 @@ namespace Solar.Graphics.Sprites
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White, 0f, origin, spriteEffect, 0f);
+            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, color, 0f, origin, spriteEffect, 0f);
         }
 
     }
