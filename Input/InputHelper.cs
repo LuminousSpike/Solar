@@ -70,7 +70,21 @@ namespace Solar.Input
         /// <param name="keyboardKey"></param>
         /// <param name="gamePadButton"></param>
         /// <returns></returns>
+        /// 
         static public bool InputPressed(Keys keyboardKey, Buttons gamePadButton)
+        {
+            //if ((previousKeyboardState.IsKeyDown(keyboardKey) || currentGamePadState.IsButtonDown(gamePadButton)) && (currentKeyboardState.IsKeyUp(keyboardKey) || currentGamePadState.IsButtonUp(gamePadButton)))
+            if (previousKeyboardState.IsKeyDown(keyboardKey) && currentKeyboardState.IsKeyUp(keyboardKey))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        static public bool InputPressed(Keys keyboardKey)
         {
             //if ((previousKeyboardState.IsKeyDown(keyboardKey) || currentGamePadState.IsButtonDown(gamePadButton)) && (currentKeyboardState.IsKeyUp(keyboardKey) || currentGamePadState.IsButtonUp(gamePadButton)))
             if (previousKeyboardState.IsKeyDown(keyboardKey) && currentKeyboardState.IsKeyUp(keyboardKey))
