@@ -8,11 +8,16 @@ namespace Solar.GUI.Containers
     public class ScrollableList : GuiSystem
     {
         // Scrollable list properties
-        private int Height, Width, Xposition, Yposition, XoffSet;
+        private readonly int Height;
+        private readonly Timer TransformTime = new Timer(1);
+        private readonly int Width;
+        private readonly int Xposition;
+        private readonly int Yposition;
+        private bool Scrolling;
+        private int TestJump = 50;
+        private int XoffSet;
         private float YoffSet;
-        private bool Scrolling = false;
-        Timer TransformTime = new Timer(1);
-        int TestJump = 50;
+
         public ScrollableList(int height, int width, int x, int y)
         {
             Height = height;
@@ -23,14 +28,14 @@ namespace Solar.GUI.Containers
 
         public void Update(GameTime gameTime)
         {
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            var elapsedTime = (float) gameTime.ElapsedGameTime.TotalSeconds;
             if (Keyboard.GetState().IsKeyDown(Keys.W))
                 Scroll(elapsedTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.S))
                 YoffSet--;
 
-            if (Scrolling == true)
+            if (Scrolling)
             {
                 if (TransformTime.Update(elapsedTime))
                 {
@@ -53,10 +58,11 @@ namespace Solar.GUI.Containers
         public override void Draw(SpriteBatch spriteBatch)
         {
             SpriteBatch savedSpriteBatch = spriteBatch;
-            RasterizerState me = new RasterizerState() { ScissorTestEnable = true }; 
+            var me = new RasterizerState {ScissorTestEnable = true};
             spriteBatch.GraphicsDevice.ScissorRectangle = new Rectangle(Xposition, Yposition, Width, Height);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, me, null, Matrix.CreateTranslation(Xposition, Yposition + YoffSet, 0));
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp,
+                DepthStencilState.None, me, null, Matrix.CreateTranslation(Xposition, Yposition + YoffSet, 0));
             foreach (Box item in GuiBoxList)
             {
                 item.Draw(spriteBatch);

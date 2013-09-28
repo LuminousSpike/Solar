@@ -6,12 +6,18 @@ namespace Solar.GUI.Controls
 {
     public class LifeBar
     {
-        private Vector2 Position, Scale;
-        private float MaxValue, MainAlpha, BorderAlpha;
+        private readonly Color BColor;
+        private readonly int BWidth;
+        private readonly int Height;
+        private readonly Color MColor;
+        private readonly Vector2 Position;
+        private readonly string TexturePath;
+        private readonly int Width;
+        private float BorderAlpha;
+        private float MainAlpha;
+        private float MaxValue;
+        private Vector2 Scale;
         private Texture2D Texture;
-        private int Width, Height, BWidth;
-        private string TexturePath;
-        private Color MColor, BColor;
         private Box myBox;
 
         public LifeBar(Vector2 position, float maxValue, string texturePath = null)
@@ -21,7 +27,8 @@ namespace Solar.GUI.Controls
             TexturePath = texturePath;
         }
 
-        public LifeBar(Vector2 position, float maxValue, int width, int height, int bWidth, Color mColor, Color bColor, float mainAlpha, float borderAlpha)
+        public LifeBar(Vector2 position, float maxValue, int width, int height, int bWidth, Color mColor, Color bColor,
+            float mainAlpha, float borderAlpha)
         {
             Position = position;
             MaxValue = maxValue;
@@ -36,13 +43,11 @@ namespace Solar.GUI.Controls
 
         private void Initialize()
         {
-
         }
 
         // Loads any content required
         public void LoadContent(ContentManager content, GraphicsDevice graphicsdevice)
         {
-            
             if (TexturePath != null)
             {
                 Texture = content.Load<Texture2D>(TexturePath);
@@ -50,7 +55,6 @@ namespace Solar.GUI.Controls
             }
             else
                 myBox = new Box(Position, Width, Height, BWidth, MColor, BColor, graphicsdevice);
-                
         }
 
         public void UnloadContent()
@@ -64,7 +68,7 @@ namespace Solar.GUI.Controls
             if (Texture == null)
                 myBox.UpdateScale(value);
             else
-                Scale.X = (((float)Texture.Width / maxValue) * (value / (float)Texture.Width));
+                Scale.X = (((float) Texture.Width/maxValue)*(value/(float) Texture.Width));
         }
 
         public void Draw(SpriteBatch spritebatch)

@@ -2,16 +2,28 @@
 {
     public class Timer
     {
-        private float myLimit, myElapsed, myTime;
-
-        public float Limit { get { return myLimit; } }
-        public float Elapsed { get { return myElapsed; } }
-        public float Time { get { return myTime; } }
+        private readonly float myLimit;
+        private float myElapsed, myTime;
 
         public Timer(float Limit)
         {
             myLimit = Limit;
             Stop();
+        }
+
+        public float Limit
+        {
+            get { return myLimit; }
+        }
+
+        public float Elapsed
+        {
+            get { return myElapsed; }
+        }
+
+        public float Time
+        {
+            get { return myTime; }
         }
 
         public void Start()
@@ -26,7 +38,7 @@
 
         private void UpdateTime()
         {
-            myTime = myElapsed / myLimit;
+            myTime = myElapsed/myLimit;
         }
 
         public bool Update(float elapsedTime)

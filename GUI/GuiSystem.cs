@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Solar.GUI.Containers;
 using Solar.GUI.Controls;
-using Microsoft.Xna.Framework;
 
 namespace Solar.GUI
 {
@@ -12,14 +12,15 @@ namespace Solar.GUI
     public class GuiSystem
     {
         // Lists for each GUI Object
+        protected int ButtonIndex = 0;
+        protected KeyboardState CurrentKeyboardState;
         protected List<Box> GuiBoxList;
         protected List<Button> GuiButtonList;
         protected List<LifeBar> GuiLifeBarList;
-        protected List<TextBox> GuiTextBoxList;
         protected List<ScrollableList> GuiScrollableList;
+        protected List<TextBox> GuiTextBoxList;
 
-        protected KeyboardState CurrentKeyboardState, PreviousKeyboardState;
-        protected int ButtonIndex = 0;
+        protected KeyboardState PreviousKeyboardState;
 
         public virtual int GuiButtonCount
         {
@@ -93,7 +94,7 @@ namespace Solar.GUI
         }
 
         // The Add function is used for adding any GUI Object to the lists above.
-        public  void Add(Box guiBox)
+        public void Add(Box guiBox)
         {
             GuiBoxList.Add(guiBox);
         }
@@ -125,7 +126,8 @@ namespace Solar.GUI
             UpdateMouse(mouseState);
 
             CurrentKeyboardState = Keyboard.GetState();
-            if ((CurrentKeyboardState.IsKeyUp(Keys.Down) && PreviousKeyboardState.IsKeyDown(Keys.Down)) || (CurrentKeyboardState.IsKeyUp(Keys.S) && PreviousKeyboardState.IsKeyDown(Keys.S)))
+            if ((CurrentKeyboardState.IsKeyUp(Keys.Down) && PreviousKeyboardState.IsKeyDown(Keys.Down)) ||
+                (CurrentKeyboardState.IsKeyUp(Keys.S) && PreviousKeyboardState.IsKeyDown(Keys.S)))
             {
                 if (ButtonIndex < GuiButtonCount - 1)
                     ButtonIndex++;
@@ -133,7 +135,8 @@ namespace Solar.GUI
                 ButtonIndexUpdate(ButtonIndex);
             }
 
-            if ((CurrentKeyboardState.IsKeyUp(Keys.Up) && PreviousKeyboardState.IsKeyDown(Keys.Up)) || (CurrentKeyboardState.IsKeyUp(Keys.W) && PreviousKeyboardState.IsKeyDown(Keys.W)))
+            if ((CurrentKeyboardState.IsKeyUp(Keys.Up) && PreviousKeyboardState.IsKeyDown(Keys.Up)) ||
+                (CurrentKeyboardState.IsKeyUp(Keys.W) && PreviousKeyboardState.IsKeyDown(Keys.W)))
             {
                 if (ButtonIndex > 0)
                     ButtonIndex--;
@@ -195,15 +198,12 @@ namespace Solar.GUI
 
         private bool GetMouseOverRect(Rectangle rect, Vector2 position, MouseState mouseState)
         {
-            if (mouseState.X > position.X - (rect.Width / 2) && mouseState.X < position.X + (rect.Width / 2) &&
-                mouseState.Y > position.Y - (rect.Height / 2) && mouseState.Y < position.Y + (rect.Height / 2))
+            if (mouseState.X > position.X - (rect.Width/2) && mouseState.X < position.X + (rect.Width/2) &&
+                mouseState.Y > position.Y - (rect.Height/2) && mouseState.Y < position.Y + (rect.Height/2))
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

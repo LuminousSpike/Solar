@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace Solar.Graphics.Sprites
 {
     public class AnimatedSprite
     {
-        public Texture2D Texture { get; set; }
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-
+        private readonly int frameTime;
+        private readonly int totalFrames;
         private int currentFrame;
-        private int totalFrames;
-        private int elapsedTime, previousElapsedTime, frameTime;
-        private int previousMin, previousMax;
+        private int elapsedTime, previousElapsedTime;
+        private int previousMax;
+        private int previousMin;
 
         public AnimatedSprite(Texture2D texture, int rows, int columns, int frametime)
         {
@@ -24,21 +18,25 @@ namespace Solar.Graphics.Sprites
             Rows = rows;
             Columns = columns;
             currentFrame = 0;
-            totalFrames = Rows * Columns;
+            totalFrames = Rows*Columns;
             frameTime = frametime;
         }
 
+        public Texture2D Texture { get; set; }
+        public int Rows { get; set; }
+        public int Columns { get; set; }
+
         public AnimatedSprite ShallowCopy()
         {
-            AnimatedSprite other = (AnimatedSprite)this.MemberwiseClone();
-            
+            var other = (AnimatedSprite) MemberwiseClone();
+
             return other;
         }
 
         public void Update(GameTime gameTime, int minFrame, int maxFrame)
         {
             // Update the elapsed time
-            elapsedTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+            elapsedTime += (int) gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (maxFrame != previousMax || minFrame != previousMin)
             {
@@ -60,17 +58,18 @@ namespace Solar.Graphics.Sprites
 
         public void Draw(SpriteBatch spriteBatch, Vector2 location, bool mirrored)
         {
-            int width = Texture.Width / Columns;
-            int height = Texture.Height / Rows;
-            int row = (int)((float)currentFrame / (float)Columns);
-            int column = currentFrame % Columns;
+            int width = Texture.Width/Columns;
+            int height = Texture.Height/Rows;
+            var row = (int) (currentFrame/(float) Columns);
+            int column = currentFrame%Columns;
 
-            Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
+            var sourceRectangle = new Rectangle(width*column, height*row, width, height);
+            var destinationRectangle = new Rectangle((int) location.X, (int) location.Y, width, height);
 
-            if (mirrored == true)
+            if (mirrored)
             {
-                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.FlipHorizontally, 0f);
+                spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White, 0f, Vector2.Zero,
+                    SpriteEffects.FlipHorizontally, 0f);
             }
             else
             {
